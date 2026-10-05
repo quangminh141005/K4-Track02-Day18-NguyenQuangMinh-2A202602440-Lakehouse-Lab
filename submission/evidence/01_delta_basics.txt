@@ -1,0 +1,44 @@
+Kernel: /home/qminh/miniconda3/envs/env_vinai_lab/bin/python
+
+shape: (3, 4)
+┌─────┬─────────┬─────┬────────┐
+│ id  ┆ name    ┆ age ┆ city   │
+│ --- ┆ ---     ┆ --- ┆ ---    │
+│ i64 ┆ str     ┆ i64 ┆ str    │
+╞═════╪═════════╪═════╪════════╡
+│ 1   ┆ alice   ┆ 30  ┆ Hanoi  │
+│ 2   ┆ bob     ┆ 25  ┆ HCMC   │
+│ 3   ┆ charlie ┆ 35  ┆ Danang │
+└─────┴─────────┴─────┴────────┘
+
+History:
+  v0  WRITE  {'num_added_files': 1, 'num_removed_files': 0, 'num_partitions': 0, 'num_added_rows': 3, 'execution_time_ms': 9, 'num_retries': 0}
+
+BLOCKED by schema enforcement (expected): Exception: Cast error: Cannot cast string 'thirty' to value of Int64 type
+
+shape: (4, 5)
+┌─────┬─────────┬─────┬────────┬─────────┐
+│ id  ┆ name    ┆ age ┆ city   ┆ tier    │
+│ --- ┆ ---     ┆ --- ┆ ---    ┆ ---     │
+│ i64 ┆ str     ┆ i64 ┆ str    ┆ str     │
+╞═════╪═════════╪═════╪════════╪═════════╡
+│ 1   ┆ alice   ┆ 30  ┆ Hanoi  ┆ null    │
+│ 2   ┆ bob     ┆ 25  ┆ HCMC   ┆ null    │
+│ 3   ┆ charlie ┆ 35  ┆ Danang ┆ null    │
+│ 4   ┆ dan     ┆ 28  ┆ Hue    ┆ premium │
+└─────┴─────────┴─────┴────────┴─────────┘
+
+[('premium', 1), (None, 3)]
+
+  [PASS] _delta_log/ has JSON commits
+  [PASS] schema enforcement blocked bad write
+  [PASS] tier column added via schema_mode=merge
+  [PASS] duckdb sees 2 tier groups
+
+NB1 complete.
+
+Commit files: ['00000000000000000000.json', '00000000000000000001.json']
+{"commitInfo":{"timestamp":1791211274236,"operation":"WRITE","operationParameters":{"mode":"Overwrite"},"engineInfo":"delta-rs:py-1.6.6","clientVersion":"delta-rs.py-1.6.6","operationMetrics":{"num_added_files":1,"num_removed_files":0,"num_partitions":0,"num_added_rows":3,"execution_time_ms":9,"num_retries":0}}}
+{"protocol":{"minReaderVersion":1,"minWriterVersion":2}}
+{"metaData":{"id":"2d2f3e36-e929-4173-89e5-8dc16d8cce56","name":null,"description":null,"format":{"provider":"parquet","options":{}},"schemaString":"{\"type\":\"struct\",\"fields\":[{\"name\":\"id\",\"type\":\"long\",\"nullable\":true,\"metadata\":{}},{\"name\":\"name\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"age\",\"type\":\"long\",\"nullable\":true,\"metadata\":{}},{\"name\":\"city\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}}]}","partitionColumns":[],"createdTime":1791211274226,"configuration":{}}}
+{"add":{"path":"part-00000-e5c8d49a-5911-43e0-8975-4d81b143a2a6-c000.snappy.parquet","partitionValues":{},"size":1384,"modificationTime":1791211274235,"dataChange":true,"stats":"{\"numRecords\":3,\"minValues\":{\"id\":1,\"age\":25,\"city\":\"Danang\",\"name\":\"alice\"},\"maxValues\":{\"age\":35,\"id\":3,\"name\":\"charlie\",\"city\":\"Hanoi\"},\"nullCount\":{\"name\":0,\"city\":0,\"id\":0,\"age\":0}}","tags":null,"baseRowId":null,"defaultRowCommitVersion":null,"clusteringProvider":null}}
